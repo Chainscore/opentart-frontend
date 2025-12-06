@@ -1,0 +1,106 @@
+@import "tailwindcss";
+
+/* JAM.Preview - Minimalistic Design System */
+/* Inspired by 1inch rebrand: clean, squared, modern, NY-style */
+
+:root {
+  /* Core palette - stark contrast */
+  --bg-primary: #000000;
+  --bg-secondary: #0a0a0a;
+  --bg-card: #111111;
+  --bg-hover: #1a1a1a;
+
+  /* Accent - single cyan accent */
+  --accent: #00d4ff;
+  --accent-muted: #00d4ff33;
+
+  /* Status */
+  --success: #00ff88;
+  --warning: #ffcc00;
+  --error: #ff3344;
+
+  /* Text - high contrast */
+  --text-primary: #ffffff;
+  --text-secondary: #888888;
+  --text-muted: #555555;
+
+  /* Borders - subtle */
+  --border: #222222;
+  --border-hover: #333333;
+}
+
+@theme inline {
+  --color-background: var(--bg-primary);
+  --color-foreground: var(--text-primary);
+  --font-sans: var(--font-outfit), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), 'JetBrains Mono', monospace;
+  --font-display: var(--font-space), system-ui, sans-serif;
+}
+
+* {
+  border-radius: 0 !important;
+}
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Typography */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
+/* Clean scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-hover);
+}
+
+/* Selection */
+::selection {
+  background: var(--accent);
+  color: var(--bg-primary);
+}
+
+/* Focus states */
+*:focus {
+  outline: 1px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Simple fade in */
+.fade-in {
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
