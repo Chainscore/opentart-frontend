@@ -1,6 +1,7 @@
 // WebSocket client for real-time TART telemetry
 
 import { TelemetryEvent } from './types';
+import { getWsUrl, onSettingsChange } from './settings';
 
 type SubscriptionFilter =
   | { type: 'All' }
@@ -23,7 +24,18 @@ class TelemetryWebSocket {
   private reconnectDelay = 1000;
 
   constructor(url?: string) {
-    this.url = url || `ws://localhost:8080/api/ws`;
+    this.url = url || getWsUrl();
+  }
+
+  updateUrl(newUrl: string): void {
+    if (this.url !== newUrl) {
+      this.url = newUrl;
+      this.reconnectAttempts = 0;
+      if (this.ws) {
+        this.disconnect();
+        this.connect();
+      }
+    }
   }
 
   connect(): void {
@@ -140,10 +152,19 @@ let instance: TelemetryWebSocket | null = null;
 
 export function getWebSocket(): TelemetryWebSocket {
   if (!instance) {
-    const wsUrl = process.env.NEXT_PUBLIC_WS_URL || 'ws://localhost:8080/api/ws';
-    instance = new TelemetryWebSocket(wsUrl);
+    instance = new TelemetryWebSocket(getWsUrl());
+    
+    // Listen for settings changes and update WebSocket URL
+    onSettingsChange((settings) => {
+      if (instance) {
+        const wsBase = settings.apiUrl.replace(/^http/, 'ws');
+        const newWsUrl = `${wsBase}/api/ws`;
+        instance.updateUrl(newWsUrl);
+      }
+    });
   }
   return instance;
 }
 
 export { TelemetryWebSocket };
+

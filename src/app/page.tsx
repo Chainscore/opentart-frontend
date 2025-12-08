@@ -6,6 +6,7 @@ import { fetchNodes, fetchEvents } from '@/lib/api';
 import { getWebSocket } from '@/lib/websocket';
 import { Node, TelemetryEvent, EVENT_TYPE_NAMES, getBestBlockChanged, getFinalizedBlockChanged, getAuthored } from '@/lib/types';
 import { StatusBadge, Badge } from '@/components/ui/Badge';
+import { getSettings, saveSettings } from '@/lib/settings';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 
@@ -29,6 +30,14 @@ export default function DashboardPage() {
   const [events, setEvents] = useState<TelemetryEvent[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const [backendUrl, setBackendUrl] = useState('');
+  const [saving, setSaving] = useState(false);
+
+  // Load initial backend URL on client
+  useEffect(() => {
+    setBackendUrl(getSettings().apiUrl);
+  }, []);
 
   useEffect(() => {
     async function loadData() {
@@ -70,6 +79,18 @@ export default function DashboardPage() {
       clearInterval(interval);
     };
   }, []);
+
+  const handleRetry = async () => {
+    setSaving(true);
+    const trimmedUrl = backendUrl.trim() || 'http://localhost:8080';
+    saveSettings({ apiUrl: trimmedUrl });
+    setBackendUrl(trimmedUrl);
+    
+    // Give settings time to propagate, then reload
+    setTimeout(() => {
+      window.location.reload();
+    }, 100);
+  };
 
   const metrics = useMemo(() => {
     const connectedNodes = nodes.filter(n => n.is_connected);
@@ -202,9 +223,28 @@ export default function DashboardPage() {
   if (error) {
     return (
       <div className="flex items-center justify-center h-full">
-        <Card className="p-8 text-center">
+        <Card className="p-8 text-center max-w-md">
           <p className="text-[var(--error)] mb-2">{error}</p>
-          <p className="text-xs text-[var(--text-muted)]">Check if TART backend is running on :8080</p>
+          <p className="text-xs text-[var(--text-muted)] mb-4">
+            Could not connect to TART backend. Enter the correct URL below:
+          </p>
+          <div className="space-y-3">
+            <input
+              type="text"
+              value={backendUrl}
+              onChange={(e) => setBackendUrl(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && handleRetry()}
+              className="w-full px-3 py-2 bg-[var(--bg-secondary)] border border-[var(--border)] text-[var(--text-primary)] text-sm font-mono focus:outline-none focus:border-[var(--accent)]"
+              placeholder="http://localhost:8080"
+            />
+            <button
+              onClick={handleRetry}
+              disabled={saving}
+              className="w-full px-4 py-2 bg-[var(--accent)] text-black text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-50"
+            >
+              {saving ? 'Connecting...' : 'Connect'}
+            </button>
+          </div>
         </Card>
       </div>
     );

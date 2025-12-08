@@ -1,11 +1,39 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/Card';
+import { getSettings, saveSettings } from '@/lib/settings';
+import { Check } from 'lucide-react';
 
 export default function SettingsPage() {
-  const [apiUrl, setApiUrl] = useState('http://localhost:8080');
+  const [apiUrl, setApiUrl] = useState('');
   const [refreshRate, setRefreshRate] = useState('5');
+  const [saved, setSaved] = useState(false);
+
+  // Load settings on mount (client-side only)
+  useEffect(() => {
+    const settings = getSettings();
+    setApiUrl(settings.apiUrl);
+    setRefreshRate(String(settings.refreshRate));
+  }, []);
+
+  const handleSave = () => {
+    saveSettings({
+      apiUrl: apiUrl.trim() || 'http://localhost:8080',
+      refreshRate: parseInt(refreshRate, 10),
+    });
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2000);
+  };
+
+  const handleReset = () => {
+    const defaultUrl = 'http://localhost:8080';
+    setApiUrl(defaultUrl);
+    setRefreshRate('5');
+    saveSettings({ apiUrl: defaultUrl, refreshRate: 5 });
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2000);
+  };
 
   return (
     <div className="space-y-6 fade-in max-w-xl">
@@ -30,6 +58,9 @@ export default function SettingsPage() {
               className="w-full px-3 py-2 bg-[var(--bg-secondary)] border border-[var(--border)] text-[var(--text-primary)] text-sm font-mono focus:outline-none focus:border-[var(--accent)]"
               placeholder="http://localhost:8080"
             />
+            <p className="text-xs text-[var(--text-muted)] mt-1">
+              WebSocket URL will be derived automatically (ws:// prefix)
+            </p>
           </div>
           <div>
             <label className="block text-xs text-[var(--text-muted)] uppercase tracking-wider mb-2">
@@ -45,6 +76,29 @@ export default function SettingsPage() {
               <option value="10">10 seconds</option>
               <option value="30">30 seconds</option>
             </select>
+          </div>
+          
+          {/* Action Buttons */}
+          <div className="flex gap-3 pt-2">
+            <button
+              onClick={handleSave}
+              className="flex items-center gap-2 px-4 py-2 bg-[var(--accent)] text-black text-sm font-medium hover:opacity-90 transition-opacity"
+            >
+              {saved ? (
+                <>
+                  <Check size={14} />
+                  Saved
+                </>
+              ) : (
+                'Save'
+              )}
+            </button>
+            <button
+              onClick={handleReset}
+              className="px-4 py-2 border border-[var(--border)] text-[var(--text-secondary)] text-sm hover:border-[var(--border-hover)] transition-colors"
+            >
+              Reset to Default
+            </button>
           </div>
         </div>
       </Card>
@@ -70,3 +124,4 @@ export default function SettingsPage() {
     </div>
   );
 }
+
