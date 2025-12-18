@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" fill="#000000"/>
+  <!-- Simplified OT logo for small sizes -->
+  <text x="16" y="13" 
+        font-family="system-ui, sans-serif" 
+        font-size="9" 
+        font-weight="900" 
+        text-anchor="middle" 
+        fill="none" 
+        stroke="#00d4ff" 
+        stroke-width="0.5">
+    O
+  </text>
+  <text x="16" y="26" 
+        font-family="system-ui, sans-serif" 
+        font-size="14" 
+        font-weight="900" 
+        text-anchor="middle" 
+        fill="#00d4ff">
+    T
+  </text>
+</svg>

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" fill="#000000"/>
+  <!-- OPEN - outlined -->
+  <text x="256" y="200" 
+        font-family="system-ui, -apple-system, sans-serif" 
+        font-size="120" 
+        font-weight="900" 
+        text-anchor="middle" 
+        fill="none" 
+        stroke="#00d4ff" 
+        stroke-width="3"
+        letter-spacing="-8">
+    OPEN
+  </text>
+  <!-- TART - solid -->
+  <text x="256" y="340" 
+        font-family="system-ui, -apple-system, sans-serif" 
+        font-size="140" 
+        font-weight="900" 
+        text-anchor="middle" 
+        fill="#00d4ff"
+        letter-spacing="-8">
+    TART
+  </text>
+</svg>
