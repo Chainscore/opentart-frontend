@@ -104,3 +104,273 @@ h6 {
     opacity: 1;
   }
 }
+
+/* ============================================================================
+   TERMINAL NOIR - Creative Landing Page Styles
+   ============================================================================ */
+
+/* Animated diagonal scanlines */
+.scanlines {
+  background: repeating-linear-gradient(-45deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 212, 255, 0.03) 2px,
+      rgba(0, 212, 255, 0.03) 4px);
+  animation: scanline-move 20s linear infinite;
+}
+
+@keyframes scanline-move {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 100px 100px;
+  }
+}
+
+/* Glitch text effect */
+.glitch-text {
+  position: relative;
+  animation: glitch 3s ease-in-out infinite;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+
+.glitch-text:hover::before {
+  animation: glitch-1 0.3s ease-in-out infinite;
+  color: var(--accent);
+  opacity: 0.8;
+  clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+}
+
+.glitch-text:hover::after {
+  animation: glitch-2 0.3s ease-in-out infinite;
+  color: var(--error);
+  opacity: 0.8;
+  clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+}
+
+@keyframes glitch {
+
+  0%,
+  90%,
+  100% {
+    transform: translate(0);
+  }
+
+  92% {
+    transform: translate(-2px, 1px);
+  }
+
+  94% {
+    transform: translate(2px, -1px);
+  }
+
+  96% {
+    transform: translate(-1px, 2px);
+  }
+
+  98% {
+    transform: translate(1px, -2px);
+  }
+}
+
+@keyframes glitch-1 {
+  0% {
+    transform: translate(0);
+  }
+
+  20% {
+    transform: translate(-3px, 2px);
+  }
+
+  40% {
+    transform: translate(3px, -2px);
+  }
+
+  60% {
+    transform: translate(-2px, 1px);
+  }
+
+  80% {
+    transform: translate(2px, -1px);
+  }
+
+  100% {
+    transform: translate(0);
+  }
+}
+
+@keyframes glitch-2 {
+  0% {
+    transform: translate(0);
+  }
+
+  20% {
+    transform: translate(3px, -2px);
+  }
+
+  40% {
+    transform: translate(-3px, 2px);
+  }
+
+  60% {
+    transform: translate(2px, -1px);
+  }
+
+  80% {
+    transform: translate(-2px, 1px);
+  }
+
+  100% {
+    transform: translate(0);
+  }
+}
+
+/* Glitch clone for logo hover */
+.glitch-clone {
+  position: absolute;
+  animation: glitch-clone 0.3s ease-in-out infinite;
+}
+
+@keyframes glitch-clone {
+
+  0%,
+  100% {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    transform: translate(0);
+  }
+
+  25% {
+    clip-path: polygon(0 20%, 100% 20%, 100% 40%, 0 40%);
+    transform: translate(-3px, 0);
+  }
+
+  50% {
+    clip-path: polygon(0 60%, 100% 60%, 100% 80%, 0 80%);
+    transform: translate(3px, 0);
+  }
+
+  75% {
+    clip-path: polygon(0 40%, 100% 40%, 100% 60%, 0 60%);
+    transform: translate(-2px, 0);
+  }
+}
+
+/* Pulse glow effect */
+.pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+
+  0%,
+  100% {
+    box-shadow: 0 0 20px var(--accent-muted);
+  }
+
+  50% {
+    box-shadow: 0 0 40px var(--accent-muted), 0 0 60px var(--accent-muted);
+  }
+}
+
+/* CRT flicker effect */
+.crt-flicker {
+  animation: crt-flicker 0.15s infinite;
+}
+
+@keyframes crt-flicker {
+  0% {
+    opacity: 0.97;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.98;
+  }
+}
+
+/* Float animation */
+.float {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* ============================================================================
+   MARQUEE - Infinite Scrolling Typography
+   ============================================================================ */
+
+.marquee-track {
+  display: flex;
+  animation: marquee 30s linear infinite;
+}
+
+.marquee-track-reverse {
+  display: flex;
+  animation: marquee-reverse 25s linear infinite;
+}
+
+.marquee-content {
+  flex-shrink: 0;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marquee-reverse {
+  0% {
+    transform: translateX(-50%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+/* Text stroke for outlined typography */
+.text-stroke {
+  -webkit-text-stroke: 2px var(--accent);
+  -webkit-text-fill-color: transparent;
+}
+
+/* Dramatic text shadow */
+.text-glow {
+  text-shadow: 0 0 80px var(--accent-muted);
+}
+
+/* Fast marquee for footer */
+.marquee-track-fast {
+  display: flex;
+  animation: marquee 15s linear infinite;
+}
